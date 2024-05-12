@@ -1,0 +1,68 @@
+.left-form{
+    -fx-background-color:linear-gradient(to right,#023e8a,#48cae4);
+}
+
+.right-form{
+    -fx-background-color:#fff;
+}
+
+.textfield{
+    -fx-background-color:#fff;
+    -fx-background-radius:4px;
+    -fx-border-color:#03045e;
+    -fx-border-width:1px;
+    -fx-border-radius:4px;
+    -fx-font-size:13px;
+    -fx-font-family:"Arial";
+}
+
+.textfield:focused{
+    -fx-background-color:#fff;
+    -fx-border-color:linear-gradient(to bottom right,#00b4d8,#03045e);
+    -fx-border-width:.8px;
+}
+
+.login-btn{
+    -fx-background-color:linear-gradient(to bottom ,#0077b6,#00b4d8);
+    -fx-background-radius:5px;
+    -fx-text-fill:#edf6f9;
+    -fx-font-size:15px;
+    -fx-font-family:"Arial";
+    -fx-cursor:hand;
+}
+
+.login-btn:hover{
+    -fx-background-color:linear-gradient(to bottom ,#023e8a,#00b4d8);
+}
+
+.signup-btn{
+    -fx-background-color:transparent;
+    -fx-font-size:15px;
+    -fx-font-family:"Arial";
+    -fx-cursor:hand;
+    -fx-min-width:80;
+    -fx-text-fill:#48cae4;
+}
+
+.signup-btn:hover{
+    -fx-text-fill:#edf6f9;
+    -fx-background-color:linear-gradient(to bottom ,#023e8a,#00b4d8);
+    -fx-background-radius:5px;
+}
+
+.title{
+    -fx-text-fill:linear-gradient(to left ,#023e8a,#00b4d8);
+}
+
+.label{
+    -fx-text-fill:linear-gradient(to bottom right ,#023e8a,#00b4d8);
+}
+
+.about-btn{
+    -fx-background-color:transparent;
+    -fx-cursor:hand;
+}
+
+.unfocus{
+    -fx-background-color:linear-gradient(to right,#48cae4,#fff);
+}
