@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.fillouh.notety.Notety;
+import org.fillouh.notety.general_classes.Student;
 
 import java.io.IOException;
 import java.net.URL;
@@ -69,6 +70,10 @@ public class RegisterController implements Initializable {
     @FXML
     private AnchorPane layer;
 
+    private Student student;
+
+
+
     public void back() throws IOException {
         backButton.getScene().getWindow().hide();
         FXMLLoader fxmlLoader = new FXMLLoader(Notety.class.getResource("views/login-view.fxml"));
@@ -82,8 +87,30 @@ public class RegisterController implements Initializable {
         for (javafx.scene.Node node : layer.getChildren()) {
             if (node instanceof TextField tx) {
                 tx.clear();
+            } else if (node instanceof ComboBox<?> cx) {
+                cx.setItems(null);
             }
         }
+    }
+
+
+    public void signup(){
+        student.firstName=firstnameField.getText();
+        student.lastName=lastnameField.getText();
+        student.email=emailField.getText();
+        student.firstName=firstnameField.getText();
+        student.firstName=firstnameField.getText();
+        student.firstName=firstnameField.getText();
+        student.firstName=firstnameField.getText();
+        student.firstName=firstnameField.getText();
+        student.firstName=firstnameField.getText();
+        student.firstName=firstnameField.getText();
+
+
+        //verificare che i parametri obbligatori ci siano
+        //verificare che le 2 password inserite coincidano
+        //verificare che l'username che si è inserito sia univoco
+        //eseguire la query di inserimento dello studente nel database
     }
 
     @Override
