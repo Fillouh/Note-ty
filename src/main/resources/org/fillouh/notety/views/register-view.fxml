@@ -21,7 +21,7 @@
                      <font>
                         <Font name="Arial" size="20.0" />
                      </font></Label>
-                  <Button fx:id="backButton" layoutX="14.0" layoutY="22.0" mnemonicParsing="false" styleClass="back-btn" stylesheets="@../style/register-style.css">
+                  <Button fx:id="backButton" layoutX="14.0" layoutY="22.0" mnemonicParsing="false" onAction="#back" styleClass="back-btn" stylesheets="@../style/register-style.css">
                      <graphic>
                         <ImageView fitHeight="19.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                            <image>
