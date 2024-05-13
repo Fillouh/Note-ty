@@ -9,10 +9,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.fillouh.notety.Notety;
+import org.fillouh.notety.database.SimpleDB;
 import org.fillouh.notety.general_classes.Student;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
@@ -71,6 +75,12 @@ public class RegisterController implements Initializable {
 
     private Alert alert;
 
+    private Connection connection;
+    private PreparedStatement preparedStatement;
+    private ResultSet resultSet;
+    private String sql;
+
+
 
 
     public void back() throws IOException {
@@ -112,17 +122,47 @@ public class RegisterController implements Initializable {
         student.username=usernameField.getText();
         student.password=passwordField.getText();
         String cpass=cpasswordField.getText();
+        student.phone=phoneField.getText();
         student.university=uniField.getText();
         student.faculty=facultyField.getText();
         student.city=cityField.getText();
         student.address=addressField.getText();
         student.gender=genderBox.getValue();
 
-
-
         //verificare che i parametri obbligatori ci siano
+        if(student.firstName==null||student.lastName==null||student.email==null||student.username==null||student.password==null||cpass==null||student.phone==null||student.university==null||student.faculty==null||student.gender==null){
+            alert=new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill all the blank mandatory fields!");
+            alert.showAndWait();
+        }
+
         //verificare che le 2 password inserite coincidano
+        if(!student.password.equals(cpass)){
+            alert=new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error message");
+            alert.setHeaderText(null);
+            alert.setContentText("Passwords don't match!");
+            alert.showAndWait();
+        }
+
         //verificare che l'username che si è inserito sia univoco
+        connection= SimpleDB.connectDB("notety_db","postgres","qwerty");
+        try{
+            sql=String.format("select * from students where username=?");
+            preparedStatement= connection.prepareStatement(sql);
+            preparedStatement.setString(1,student.username);
+            resultSet=preparedStatement.executeQuery();
+
+            if(resultSet!=null){
+
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
         //eseguire la query di inserimento dello studente nel database
     }
 
