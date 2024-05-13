@@ -22,10 +22,10 @@ import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
     @FXML
-    private PasswordField addressField;
+    private TextField addressField;
 
     @FXML
-    private PasswordField ageField;
+    private TextField ageField;
 
     @FXML
     private Button backButton;
@@ -104,19 +104,8 @@ public class RegisterController implements Initializable {
     }
 
 
-    public void signup() throws IOException {
-        try{
-            student.age=Integer.parseInt(ageField.getText());
-        }
-        catch (NumberFormatException e){
-            e.printStackTrace();
-            alert=new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error message");
-            alert.setHeaderText(null);
-            alert.setContentText("Please insert a valid age value!");
-            alert.showAndWait();
-        }
-
+    public void signup() throws IOException, SQLException {
+        student=new Student();
         student.firstName=firstnameField.getText();
         student.lastName=lastnameField.getText();
         student.email=emailField.getText();
@@ -138,75 +127,88 @@ public class RegisterController implements Initializable {
             alert.setContentText("Please fill all the blank mandatory fields!");
             alert.showAndWait();
         }
-
-        //verificare che le 2 password inserite coincidano
-        if(!student.password.equals(cpass)){
-            alert=new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error message");
-            alert.setHeaderText(null);
-            alert.setContentText("Passwords don't match!");
-            alert.showAndWait();
-        }
-
-        //verificare che l'username che si è inserito sia univoco
-
-        try{
-            connection= SimpleDB.connectDB("notety_db","postgres","qwerty");
-            sql= "select * from students where username=?";
-            preparedStatement= connection.prepareStatement(sql);
-            preparedStatement.setString(1,student.username);
-            resultSet=preparedStatement.executeQuery();
-
-            if(!resultSet.next()){
+        else{
+            try{
+                student.age=Integer.parseInt(ageField.getText());
+            }
+            catch (NumberFormatException e){
+                e.printStackTrace();
                 alert=new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error message");
                 alert.setHeaderText(null);
-                alert.setContentText("This username is already taken! Choose another one");
+                alert.setContentText("Please insert a valid age value!");
                 alert.showAndWait();
-                usernameField.clear();
+            }
+
+            //verificare che le 2 password inserite coincidano
+            if(!student.password.equals(cpass)){
+                alert=new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error message");
+                alert.setHeaderText(null);
+                alert.setContentText("Passwords don't match!");
+                alert.showAndWait();
+            }
+            else{
+                //verificare che l'username che si è inserito sia univoco
+
+                try{
+                    connection= SimpleDB.connectDB("notety_db","postgres","qwerty");
+                    sql= "select * from students where username=?";
+                    preparedStatement= connection.prepareStatement(sql);
+                    preparedStatement.setString(1,student.username);
+                    resultSet=preparedStatement.executeQuery();
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                    System.out.println("Errore di connessione al db");
+                }
+                if(resultSet.next()){
+                    alert=new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("This username is already taken! Choose another one");
+                    alert.showAndWait();
+                    usernameField.clear();
+                }
+                else{
+                    //eseguire la query di inserimento dello studente nel database
+                    try{
+                        connection= SimpleDB.connectDB("notety_db","postgres","qwerty");
+                        sql="INSERT INTO students (firstname,lastname,username,password,email,phone,university,faculty,city,address,age,gender)"+
+                                "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+
+                        preparedStatement=connection.prepareStatement(sql);
+                        preparedStatement.setString(1, student.firstName);
+                        preparedStatement.setString(2, student.lastName);
+                        preparedStatement.setString(3, student.username);
+                        preparedStatement.setString(4, student.password);
+                        preparedStatement.setString(5, student.email);
+                        preparedStatement.setString(6, student.phone);
+                        preparedStatement.setString(7, student.university);
+                        preparedStatement.setString(8, student.faculty);
+                        preparedStatement.setString(9, student.city);
+                        preparedStatement.setString(10, student.address);
+                        preparedStatement.setString(11,String.valueOf(student.age));
+                        preparedStatement.setString(12, student.gender);
+
+                        int rIns=preparedStatement.executeUpdate();
+                        if(rIns==0){
+                            System.out.println("Signup problem");
+                        }
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    alert=new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Welcome to Notety you've registered successfully!\n You will be redirected at the login page");
+                    alert.showAndWait();
+                    back();
+                }
+
             }
         }
-        catch (Exception e){
-            e.printStackTrace();
-            System.out.println("Errore di connessione al db");
-        }
-
-        //eseguire la query di inserimento dello studente nel database
-
-        try{
-            connection= SimpleDB.connectDB("notety_db","postgres","qwerty");
-            sql="insert into students(firstName,lastName,username,password,email,phone,university,faculty,city,address,age,gender"+
-                    "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
-
-            preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setString(1, student.firstName);
-            preparedStatement.setString(2, student.lastName);
-            preparedStatement.setString(3, student.username);
-            preparedStatement.setString(4, student.password);
-            preparedStatement.setString(5, student.email);
-            preparedStatement.setString(6, student.phone);
-            preparedStatement.setString(7, student.university);
-            preparedStatement.setString(8, student.faculty);
-            preparedStatement.setString(9, student.city);
-            preparedStatement.setString(10, student.address);
-            preparedStatement.setString(11, String.valueOf(student.age));
-            preparedStatement.setString(12, student.gender);
-
-            int rIns=preparedStatement.executeUpdate();
-            if(rIns==0){
-                System.out.println("Signup problem");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        alert=new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information message");
-        alert.setHeaderText(null);
-        alert.setContentText("Welcome to Notety you've registered successfully!\n You will be redirected at the login page");
-        alert.showAndWait();
-
-        back();
     }
 
     @Override

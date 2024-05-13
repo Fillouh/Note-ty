@@ -56,13 +56,13 @@
                   <TextField fx:id="uniField" layoutX="365.0" layoutY="219.0" promptText="University/College" styleClass="textfield" stylesheets="@../style/register-style.css" />
                   <TextField fx:id="emailField" layoutX="691.0" layoutY="49.0" promptText="Email" styleClass="textfield" stylesheets="@../style/register-style.css" />
                   <TextField fx:id="facultyField" layoutX="691.0" layoutY="219.0" promptText="Es : Software Engineering" styleClass="textfield" stylesheets="@../style/register-style.css" />
-                  <PasswordField fx:id="ageField" layoutX="35.0" layoutY="308.0" promptText="Age" styleClass="textfield" stylesheets="@../style/register-style.css" />
-                  <PasswordField fx:id="addressField" layoutX="691.0" layoutY="308.0" promptText="Address" styleClass="textfield" stylesheets="@../style/register-style.css" />
                   <Button fx:id="signupButton" layoutX="635.0" layoutY="431.0" mnemonicParsing="false" onAction="#signup" prefHeight="45.0" prefWidth="105.0" styleClass="btt" stylesheets="@../style/register-style.css" text="Sign-up" />
                   <Button fx:id="clearButton" layoutX="233.0" layoutY="430.0" mnemonicParsing="false" onAction="#clear" prefHeight="46.0" prefWidth="130.0" styleClass="clear-btn" stylesheets="@../style/register-style.css" text="Clear all Fields" />
                   <ComboBox fx:id="genderBox" layoutX="410.0" layoutY="380.0" prefWidth="150.0" promptText="Select" styleClass="combo" stylesheets="@../style/register-style.css" />
                   <PasswordField fx:id="passwordField" layoutX="365.0" layoutY="135.0" promptText="Password" styleClass="textfield" stylesheets="@../style/register-style.css" />
                   <PasswordField fx:id="cpasswordField" layoutX="691.0" layoutY="135.0" promptText="Password" styleClass="textfield" stylesheets="@../style/register-style.css" />
+                  <TextField fx:id="ageField" layoutX="35.0" layoutY="308.0" promptText="Age" styleClass="textfield" stylesheets="@../style/register-style.css" />
+                  <TextField fx:id="addressField" layoutX="692.0" layoutY="308.0" promptText="Address" styleClass="textfield" stylesheets="@../style/register-style.css" />
                </children>
             </AnchorPane>
          </center>
