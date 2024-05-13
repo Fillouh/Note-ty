@@ -17,6 +17,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class RegisterController implements Initializable {
@@ -103,7 +104,7 @@ public class RegisterController implements Initializable {
     }
 
 
-    public void signup(){
+    public void signup() throws IOException {
         try{
             student.age=Integer.parseInt(ageField.getText());
         }
@@ -148,22 +149,64 @@ public class RegisterController implements Initializable {
         }
 
         //verificare che l'username che si è inserito sia univoco
-        connection= SimpleDB.connectDB("notety_db","postgres","qwerty");
+
         try{
-            sql=String.format("select * from students where username=?");
+            connection= SimpleDB.connectDB("notety_db","postgres","qwerty");
+            sql= "select * from students where username=?";
             preparedStatement= connection.prepareStatement(sql);
             preparedStatement.setString(1,student.username);
             resultSet=preparedStatement.executeQuery();
 
-            if(resultSet!=null){
-
+            if(!resultSet.next()){
+                alert=new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error message");
+                alert.setHeaderText(null);
+                alert.setContentText("This username is already taken! Choose another one");
+                alert.showAndWait();
+                usernameField.clear();
             }
         }
         catch (Exception e){
             e.printStackTrace();
+            System.out.println("Errore di connessione al db");
         }
 
         //eseguire la query di inserimento dello studente nel database
+
+        try{
+            connection= SimpleDB.connectDB("notety_db","postgres","qwerty");
+            sql="insert into students(firstName,lastName,username,password,email,phone,university,faculty,city,address,age,gender"+
+                    "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+
+            preparedStatement=connection.prepareStatement(sql);
+            preparedStatement.setString(1, student.firstName);
+            preparedStatement.setString(2, student.lastName);
+            preparedStatement.setString(3, student.username);
+            preparedStatement.setString(4, student.password);
+            preparedStatement.setString(5, student.email);
+            preparedStatement.setString(6, student.phone);
+            preparedStatement.setString(7, student.university);
+            preparedStatement.setString(8, student.faculty);
+            preparedStatement.setString(9, student.city);
+            preparedStatement.setString(10, student.address);
+            preparedStatement.setString(11, String.valueOf(student.age));
+            preparedStatement.setString(12, student.gender);
+
+            int rIns=preparedStatement.executeUpdate();
+            if(rIns==0){
+                System.out.println("Signup problem");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        alert=new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information message");
+        alert.setHeaderText(null);
+        alert.setContentText("Welcome to Notety you've registered successfully!\n You will be redirected at the login page");
+        alert.showAndWait();
+
+        back();
     }
 
     @Override
