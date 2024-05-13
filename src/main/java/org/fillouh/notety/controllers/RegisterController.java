@@ -5,10 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.fillouh.notety.Notety;
@@ -72,6 +69,8 @@ public class RegisterController implements Initializable {
 
     private Student student;
 
+    private Alert alert;
+
 
 
     public void back() throws IOException {
@@ -95,16 +94,30 @@ public class RegisterController implements Initializable {
 
 
     public void signup(){
+        try{
+            student.age=Integer.parseInt(ageField.getText());
+        }
+        catch (NumberFormatException e){
+            e.printStackTrace();
+            alert=new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please insert a valid age value!");
+            alert.showAndWait();
+        }
+
         student.firstName=firstnameField.getText();
         student.lastName=lastnameField.getText();
         student.email=emailField.getText();
-        student.firstName=firstnameField.getText();
-        student.firstName=firstnameField.getText();
-        student.firstName=firstnameField.getText();
-        student.firstName=firstnameField.getText();
-        student.firstName=firstnameField.getText();
-        student.firstName=firstnameField.getText();
-        student.firstName=firstnameField.getText();
+        student.username=usernameField.getText();
+        student.password=passwordField.getText();
+        String cpass=cpasswordField.getText();
+        student.university=uniField.getText();
+        student.faculty=facultyField.getText();
+        student.city=cityField.getText();
+        student.address=addressField.getText();
+        student.gender=genderBox.getValue();
+
 
 
         //verificare che i parametri obbligatori ci siano
