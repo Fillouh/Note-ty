@@ -66,3 +66,7 @@
 .unfocus{
     -fx-background-color:linear-gradient(to right,#48cae4,#fff);
 }
+
+.shadow{
+    -fx-effect:dropshadow(three-pass-box, rgba(0,0,0,0.5),6,0,0,0);
+}
