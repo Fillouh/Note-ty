@@ -39,16 +39,18 @@ public class LoginController {
     private String username;
     private String password;
     private String sql;
-    private static String link="https://github.com/";
+    private static String link="https://github.com/Fillouh/Note-ty";
 
     private Connection connection;
     private PreparedStatement preparedStatement;
     private ResultSet resultSet;
+    private LoggedStudent loggedStudent;
 
     public void loginAdmin(){
         username=usernameField.getText();
         password=passwordField.getText();
-        LoggedStudent.username=username;
+        loggedStudent=new LoggedStudent(username);
+        DashboardController.actualUser=loggedStudent;
         Alert alert;
         if(username.isEmpty()||password.isEmpty()){
             alert=new Alert(Alert.AlertType.ERROR);
