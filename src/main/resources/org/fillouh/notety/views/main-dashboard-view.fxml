@@ -19,7 +19,7 @@
                         <Image url="@../icons/logo.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="logoutButton" layoutX="14.0" layoutY="628.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="58.0" styleClass="ext-btn" stylesheets="@../style/dashboard-style.css">
+                  <Button fx:id="logoutButton" layoutX="14.0" layoutY="628.0" mnemonicParsing="false" onAction="#logout" prefHeight="39.0" prefWidth="58.0" styleClass="ext-btn" stylesheets="@../style/dashboard-style.css">
                      <graphic>
                         <ImageView fitHeight="24.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                            <image>
